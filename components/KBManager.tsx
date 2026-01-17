@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Category, KBFile } from '../types';
 import { ICONS } from '../constants';
@@ -10,15 +9,16 @@ interface KBManagerProps {
   onDelete: (id: string) => void;
 }
 
+// 💡 第一步：更新这里的分类定义，确保和 types.ts 一致
 const CATEGORIES = [
-  { id: Category.PLOT, label: '剧情资料', icon: ICONS.FileText, color: 'blue' },
-  { id: Category.CHARACTER, label: '人物设定', icon: ICONS.Users, color: 'emerald' },
-  { id: Category.REFERENCE, label: '参考脚本', icon: ICONS.Settings, color: 'amber' },
-  { id: Category.WORLD_BUILDING, label: '场景与规则', icon: ICONS.Library, color: 'rose' },
+  { id: Category.ORIGINAL, label: '原著剧本', icon: ICONS.FileText, color: 'blue' },
+  { id: Category.LAYOUT_REF, label: '剧情脚本排版参考', icon: ICONS.Settings, color: 'emerald' },
+  { id: Category.OUTLINE_REF, label: '剧情大纲写法参考', icon: ICONS.Library, color: 'amber' },
 ];
 
 const KBManager: React.FC<KBManagerProps> = ({ files, onUpload, onDelete }) => {
-  const [selectedCategory, setSelectedCategory] = useState<Category>(Category.PLOT);
+  // 💡 第二步：初始化选择为“原著剧本”
+  const [selectedCategory, setSelectedCategory] = useState<Category>(Category.ORIGINAL);
   const [dragging, setDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -67,7 +67,7 @@ const KBManager: React.FC<KBManagerProps> = ({ files, onUpload, onDelete }) => {
           return {
             id: Math.random().toString(36).substring(7),
             name: file.name,
-            category: selectedCategory,
+            category: selectedCategory, // 💡 这里会自动带上你在左侧选中的分类
             content: content,
             uploadDate: new Date().toLocaleString(),
           };
@@ -118,7 +118,7 @@ const KBManager: React.FC<KBManagerProps> = ({ files, onUpload, onDelete }) => {
           <div className="relative z-10">
             <h3 className="font-black text-lg mb-2">智能作业指引</h3>
             <p className="text-xs text-blue-100 leading-relaxed opacity-90">
-              请确保原著内容包含完整的物理逻辑与角色对话，这将作为 AI 锚定因果律的核心资料源。
+              请先在上方选择分类，再进行上传。系统会自动根据分类在工作台提供不同的 AI 生成建议。
             </p>
           </div>
           <div className="absolute -right-6 -bottom-6 opacity-20 scale-150 transform rotate-12">
@@ -156,8 +156,8 @@ const KBManager: React.FC<KBManagerProps> = ({ files, onUpload, onDelete }) => {
             </div>
             
             <div className="text-center space-y-3">
-              <h3 className="text-3xl font-black text-slate-900 tracking-tight">批量导入【{selectedCategory}】</h3>
-              <p className="text-slate-400 font-medium">拖拽多份 Docx 或 Txt 到此处，系统将自动进行分级解析</p>
+              <h3 className="text-3xl font-black text-slate-900 tracking-tight">导入【{selectedCategory}】</h3>
+              <p className="text-slate-400 font-medium">拖拽 Docx 或 Txt 到此处，系统将自动标记分类</p>
             </div>
 
             <label className="mt-10 cursor-pointer group">
