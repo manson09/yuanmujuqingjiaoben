@@ -1,9 +1,8 @@
 
 export enum Category {
-  PLOT = '剧情资料',
-  CHARACTER = '人物设定',
-  REFERENCE = '参考脚本',
-  WORLD_BUILDING = '场景与规则',
+  ORIGINAL = '原著剧本',
+  LAYOUT_REF = '剧情脚本排版参考',
+  OUTLINE_REF = '剧情大纲写法参考',
 }
 
 export interface KBFile {
